@@ -13,40 +13,41 @@ const Container = styled.main`
   row-gap: 1rem;
 `;
 function App() {
-  const [work, setWork] = useState([]);
-  const onAddWork = (addWork) => {
-    setWork((prevState) => [...prevState, addWork]);
+  const [todo, setTodo] = useState([]);
+  const onAddTodo = (newTodo) => {
+    setTodo((prevState) => [...prevState, newTodo]);
   };
-  const onRemoveWork = (id) => {
-    const newWorkList = work.filter((todo) => todo.id !== id);
-    setWork(newWorkList);
+  const onRemove = (id) => {
+    const newTodo = todo.filter((todo) => todo.id !== id);
+    setTodo(newTodo);
   };
-  const onUpdateWork = (item) => {
-    const newWorkList = work.map((todo) => {
+  const onUpdateDone = (item) => {
+    const newTodo = todo.map((todo) => {
       if (todo.id === item.id) {
         todo.done = !todo.done;
       }
       return todo;
     });
-    setWork(newWorkList);
+    setTodo(newTodo);
   };
-  const onUpdateTodo = (id, content) => {
-    const newWorkList = work.map((todo) => {
+  const onUpdateTodo = (id, newTodo) => {
+    const newTodoList = todo.map((todo) => {
       if (todo.id === id) {
-        todo.todo = content;
+        todo.todo = newTodo;
       }
       return todo;
     });
-    setWork(newWorkList);
+    setTodo(newTodoList);
   };
   return (
     <Container>
       <Title>Todo List</Title>
-      <Form onAddWorkHandler={onAddWork} />
+      {/*todo filter 기능 추가할것*/}
+      <Form onAddTodo={onAddTodo} />
       <List
-        list={work}
-        onRemove={onRemoveWork}
-        onUpdate={onUpdateWork}
+        list={todo}
+        onRemove={onRemove}
+        onUpdateDone={onUpdateDone}
         onUpdateTodo={onUpdateTodo}
       />
     </Container>

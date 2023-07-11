@@ -23,7 +23,7 @@ const AddButton = styled.button`
   }
 `;
 
-const InputWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   width: 100%;
 `;
@@ -41,7 +41,7 @@ const Input = styled.input`
   }
 `;
 
-const Form = ({ onAddWorkHandler }) => {
+const Form = ({ onAddTodo }) => {
   const [todo, setTodo] = useState("");
   const inputRef = useRef(null);
 
@@ -58,7 +58,7 @@ const Form = ({ onAddWorkHandler }) => {
       return alert("내용을 입력해주세요");
     }
     // change 과정에서 id를 할당하면 키를 입력받는 매 순간마다 id를 새롭게 생성하여 불필요한 일을 많이한다. 최종 아이디는 리스트에 submit 할때 할당한다.
-    onAddWorkHandler({ id: uuidv4(), done: false, todo });
+    onAddTodo({ id: uuidv4(), done: false, todo });
     // 입력 후에는 다음 입력을 위해 input을 비워준다.
     setTodo("");
     // 바로 다음 내용을 입력할 수 있도록 포커싱
@@ -67,7 +67,7 @@ const Form = ({ onAddWorkHandler }) => {
 
   return (
     <form onSubmit={onSubmitHandler}>
-      <InputWrapper>
+      <Container>
         <Input
           id="add-todo"
           type="text"
@@ -79,7 +79,7 @@ const Form = ({ onAddWorkHandler }) => {
         <AddButton type="submit">
           <BiSolidMessageSquareAdd />
         </AddButton>
-      </InputWrapper>
+      </Container>
     </form>
   );
 };

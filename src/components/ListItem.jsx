@@ -3,7 +3,7 @@ import { BsCheckSquare, BsCheckSquareFill } from "react-icons/bs";
 import styled from "styled-components";
 import { FiDelete, FiEdit } from "react-icons/fi";
 
-const ListName = styled.div`
+const Container = styled.div`
   display: flex;
   gap: 1rem;
   width: 100%;
@@ -15,8 +15,14 @@ const ListNameWrapper = styled.span`
   flex-basis: 100%;
   gap: 1rem;
   align-items: center;
+  padding: 1rem;
+  border-radius: 1rem;
+  transition: 300ms;
+  &:hover {
+    background-color: var(--oc-gray-3);
+  }
 `;
-const ListItemName = styled.div`
+const ListName = styled.div`
   display: flex;
   width: 100%;
   text-decoration: ${(props) => props.$isDone && "line-through"};
@@ -38,47 +44,74 @@ const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
 `;
-const ListItem = ({ onUpdate, item, updateTodo, onDeleteHandler }) => {
+const Input = styled.input`
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  border-radius: 1rem;
+  border: 1px solid #ddd;
+`;
+const InputButton = styled.button`
+  display: flex;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+`;
+const FormContainer = styled.form`
+  display: flex;
+  width: 100%;
+`;
+const ListItem = ({ onUpdateDone, item, onUpdateTodo, onRemove }) => {
   const [todo, setTodo] = useState(item.todo);
   const [edit, setEdit] = useState(false);
   const onEditHandler = () => {
     setEdit(!edit);
   };
   const onChangeHandler = (e) => {
+    // input에 변경된 내용 바인딩
     setTodo(e.target.value);
   };
   const onUpdateHandler = () => {
-    updateTodo(item.id, todo);
+    // 기존 내용과 차이가 없을 경우 edit mode 종료
+    if (todo === item.todo) {
+      return setEdit(!edit);
+    }
+    // 변경된 내용과 아이디 전달
+    onUpdateTodo(item.id, todo);
+    // edit mode 종료
     setEdit(!edit);
   };
   /* 클릭시 done 상태 변화*/
   if (edit) {
     return (
-      <>
-        <input value={todo} type="text" onChange={onChangeHandler} />
-        <button type="button" onClick={onUpdateHandler}>
+      <FormContainer>
+        <Input value={todo} type="text" onChange={onChangeHandler} />
+        <InputButton type="submit" onClick={onUpdateHandler}>
           update
-        </button>
-      </>
+        </InputButton>
+      </FormContainer>
     );
   }
   return (
-    <ListName>
-      <ListNameWrapper onClick={() => onUpdate(item)}>
+    <Container>
+      <ListNameWrapper onClick={() => onUpdateDone(item)}>
         {/*  done 여부에 따라 아이콘 적용*/}
         {!item.done ? <BsCheckSquare /> : <BsCheckSquareFill />}
 
-        <ListItemName $isDone={item.done}>{item.todo}</ListItemName>
+        <ListName $isDone={item.done}>{item.todo}</ListName>
       </ListNameWrapper>
       <ButtonGroup>
         <IconButton onClick={onEditHandler}>
           <FiEdit />
         </IconButton>
-        <IconButton onClick={() => onDeleteHandler(item.id)}>
+        <IconButton onClick={() => onRemove(item.id)}>
           <FiDelete />
         </IconButton>
       </ButtonGroup>
-    </ListName>
+    </Container>
   );
 };
 
