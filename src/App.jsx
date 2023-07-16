@@ -65,7 +65,7 @@ const Badge = styled.span`
 `;
 function App() {
   const [todo, setTodo] = useState([]);
-  const [currentTab, setCurrentTab] = useState(1);
+  const [currentTab, setCurrentTab] = useState(0);
   const tabs = [
     { id: 0, name: "전체", content: todo },
     { id: 1, name: "작업중", content: todo.filter((item) => !item.done) },
