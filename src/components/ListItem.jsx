@@ -2,13 +2,14 @@ import { useState } from "react";
 import { BsCheckSquare, BsCheckSquareFill } from "react-icons/bs";
 import styled from "styled-components";
 import { FiDelete, FiEdit } from "react-icons/fi";
-
+import PropTypes from "prop-types";
 const Container = styled.div`
   display: flex;
   gap: 1rem;
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  transition: all 200ms ease;
 `;
 const ListNameWrapper = styled.span`
   display: flex;
@@ -74,6 +75,7 @@ const ListItem = ({ onUpdateDone, item, onUpdateTodo, onRemove }) => {
     // input에 변경된 내용 바인딩
     setTodo(e.target.value);
   };
+
   const onUpdateHandler = () => {
     // 기존 내용과 차이가 없을 경우 edit mode 종료
     if (todo === item.todo) {
@@ -84,6 +86,7 @@ const ListItem = ({ onUpdateDone, item, onUpdateTodo, onRemove }) => {
     // edit mode 종료
     setEdit(!edit);
   };
+
   /* 클릭시 done 상태 변화*/
   if (edit) {
     return (
@@ -95,6 +98,7 @@ const ListItem = ({ onUpdateDone, item, onUpdateTodo, onRemove }) => {
       </FormContainer>
     );
   }
+
   return (
     <Container>
       <ListNameWrapper onClick={() => onUpdateDone(item)}>
@@ -116,3 +120,10 @@ const ListItem = ({ onUpdateDone, item, onUpdateTodo, onRemove }) => {
 };
 
 export default ListItem;
+
+ListItem.propTypes = {
+  item: PropTypes.object,
+  onUpdateDone: PropTypes.func,
+  onUpdateTodo: PropTypes.func,
+  onRemove: PropTypes.func,
+};

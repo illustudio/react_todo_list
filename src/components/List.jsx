@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ListItem from "./ListItem.jsx";
+import PropTypes from "prop-types";
 
 const Container = styled.li`
   display: flex;
@@ -7,6 +8,7 @@ const Container = styled.li`
   cursor: pointer;
   width: 100%;
   justify-content: space-between;
+  transition: all 200ms ease;
 `;
 
 const List = ({ list, onUpdateDone, onRemove, onUpdateTodo }) => {
@@ -32,3 +34,10 @@ const List = ({ list, onUpdateDone, onRemove, onUpdateTodo }) => {
 };
 
 export default List;
+
+List.propTypes = {
+  list: PropTypes.array,
+  onUpdateDone: PropTypes.func,
+  onRemove: PropTypes.func,
+  onUpdateTodo: PropTypes.func,
+};
